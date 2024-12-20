@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Short Film</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      margin: 50px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #1976d2;
+      font-size: 24px;
+    }
+    input, button {
+      width: 90%;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #155a9e;
+    }
+    .message {
+      color: green;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Upload Your Short Film</h1>
+    <form id="uploadForm">
+      <input type="text" id="filmName" placeholder="Film Name" required>
+      <input type="text" id="directorName" placeholder="Director Name" required>
+      <input type="email" id="contactEmail" placeholder="Contact Email" required>
+      <input type="file" id="videoFile" accept="video/*" required>
+      <button type="submit">Upload</button>
+    </form>
+    <p id="uploadMessage" class="message"></p>
+    <button onclick="window.location.href='videos.html'">View Uploaded Videos</button>
+  </div>
+  <script>
+    // Check if the user is logged in
+    if (!sessionStorage.getItem("loggedInUser")) {
+      window.location.href = "login.html"; // Redirect to login page if not logged in
+    }
+
+    let uploadedVideos = JSON.parse(localStorage.getItem("uploadedVideos")) || [];
+
+    document.getElementById("uploadForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const filmName = document.getElementById("filmName").value;
+      const directorName = document.getElementById("directorName").value;
+      const contactEmail = document.getElementById("contactEmail").value;
+      const videoFile = document.getElementById("videoFile").files[0];
+
+      const videoDetails = {
+        filmName,
+        directorName,
+        contactEmail,
+        videoUrl: URL.createObjectURL(videoFile),
+      };
+
+      uploadedVideos.push(videoDetails);
+      localStorage.setItem("uploadedVideos", JSON.stringify(uploadedVideos));
+
+      document.getElementById("uploadMessage").innerText = "Video uploaded successfully!";
+      document.getElementById("uploadForm").reset();
+    });
+  </script>
+</body>
+</html>
+

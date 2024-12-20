@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uploaded Videos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #1976d2;
+      font-size: 24px;
+    }
+    video {
+      width: 100%;
+      margin: 20px 0;
+    }
+    button {
+      background-color: #1976d2;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #155a9e;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Uploaded Short Films</h1>
+    <div id="videoList"></div>
+    <button onclick="window.location.href='upload.html'">Back to Upload Page</button>
+  </div>
+  <script>
+    // Get uploaded videos from localStorage
+    const videoList = document.getElementById("videoList");
+    const videos = JSON.parse(localStorage.getItem("uploadedVideos")) || [];
+
+    if (videos.length === 0) {
+      videoList.innerHTML = "<p>No videos uploaded yet.</p>";
+    }
+
+    // Display each uploaded video
+    videos.forEach((video) => {
+      const videoElement = document.createElement("div");
+      videoElement.innerHTML = `
+        <h3>${video.filmName} (Director: ${video.directorName})</h3>
+        <p>Contact: ${video.contactEmail}</p>
+        <video src="${video.videoURL}" controls></video>
+      `;
+      videoList.appendChild(videoElement);
+    });
+  </script>
+</body>
+</html>
